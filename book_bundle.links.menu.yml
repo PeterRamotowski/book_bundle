@@ -1,0 +1,38 @@
+book_bundle.settings:
+  title: 'Book Bundle'
+  description: 'Remove or create Book and Chapter content'
+  parent: system.admin_config_content
+  route_name: book_bundle.settings
+  weight: 10
+
+entity.book.settings:
+  title: 'Book'
+  description: 'Configure a Book entity type'
+  route_name:  entity.book.settings
+  parent: entity.node_type.collection
+entity.book.collection:
+  title: 'Books'
+  description: 'List of books'
+  route_name: entity.book.collection
+  parent: system.admin_content
+entity.book.add:
+  title: 'Add Book'
+  description: 'Add Book'
+  route_name:  entity.book.add_form
+  parent: entity.book.collection
+
+entity.chapter.settings:
+  title: 'Chapter'
+  description: 'Configure a Chapter entity type'
+  route_name:  entity.chapter.settings
+  parent: entity.node_type.collection
+entity.chapter.collection:
+  title: 'Chapters'
+  description: 'List of chapters'
+  route_name: entity.chapter.collection
+  parent: system.admin_content
+entity.chapter.add:
+  title: 'Add Chapter'
+  description: 'Add Chapter'
+  route_name:  entity.chapter.add_form
+  parent: entity.chapter.collection

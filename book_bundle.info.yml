@@ -1,0 +1,10 @@
+name: Book Bundle
+type: module
+description: Drupal 9 module demonstrating how to reference two entities and generate connected content
+package: Custom
+core_version_requirement: ^9 || ^10
+configure: book_bundle.settings
+dependencies:
+  - multiple_selects
+  - pathauto
+php: 8.0

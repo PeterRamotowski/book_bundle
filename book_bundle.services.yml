@@ -1,0 +1,3 @@
+services:
+  book_bundle.content_manager:
+    class: Drupal\book_bundle\content\ContentManager

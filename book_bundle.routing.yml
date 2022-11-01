@@ -1,0 +1,23 @@
+book_bundle.settings:
+  path: 'admin/config/content/book-bundle'
+  defaults:
+    _title: 'Book Bundle'
+    _form: 'Drupal\book_bundle\Form\BookBundleSettingsForm'
+  requirements:
+    _permission: 'administer book_bundle configuration'
+
+entity.book.settings:
+  path: 'admin/structure/types/manage/book'
+  defaults:
+    _form: '\Drupal\book_bundle\Form\BookSettingsForm'
+    _title: 'Book'
+  requirements:
+    _permission: 'administer book'
+
+entity.chapter.settings:
+  path: 'admin/structure/types/manage/chapter'
+  defaults:
+    _form: '\Drupal\book_bundle\Form\ChapterSettingsForm'
+    _title: 'Chapter'
+  requirements:
+    _permission: 'administer chapter'

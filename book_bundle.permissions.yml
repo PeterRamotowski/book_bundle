@@ -1,0 +1,11 @@
+administer book_bundle configuration:
+  title: 'Administer book_bundle configuration'
+  restrict access: true
+
+administer book:
+  title: 'Administer book settings'
+  restrict access: true
+
+administer chapter:
+  title: 'Administer chapter settings'
+  restrict access: true

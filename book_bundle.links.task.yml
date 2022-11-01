@@ -1,0 +1,45 @@
+entity.book.settings:
+  title: 'Settings'
+  route_name: entity.book.settings
+  base_route: entity.book.settings
+entity.book.view:
+  title: 'View'
+  route_name: entity.book.canonical
+  base_route: entity.book.canonical
+entity.book.edit_form:
+  title: 'Edit'
+  route_name: entity.book.edit_form
+  base_route: entity.book.canonical
+entity.book.delete_form:
+  title: 'Delete'
+  route_name: entity.book.delete_form
+  base_route: entity.book.canonical
+  weight: 10
+entity.book.collection:
+  title: 'Books'
+  route_name: entity.book.collection
+  base_route: system.admin_content
+  weight: 10
+
+entity.chapter.settings:
+  title: 'Settings'
+  route_name: entity.chapter.settings
+  base_route: entity.chapter.settings
+entity.chapter.view:
+  title: 'View'
+  route_name: entity.chapter.canonical
+  base_route: entity.chapter.canonical
+entity.chapter.edit_form:
+  title: 'Edit'
+  route_name: entity.chapter.edit_form
+  base_route: entity.chapter.canonical
+entity.chapter.delete_form:
+  title: 'Delete'
+  route_name: entity.chapter.delete_form
+  base_route: entity.chapter.canonical
+  weight: 10
+entity.chapter.collection:
+  title: 'Chapters'
+  route_name: entity.chapter.collection
+  base_route: system.admin_content
+  weight: 10

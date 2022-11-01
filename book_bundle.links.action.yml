@@ -1,0 +1,11 @@
+book.add_form:
+  title: 'Add book'
+  route_name: entity.book.add_form
+  appears_on:
+    - entity.book.collection
+
+chapter.add_form:
+  title: 'Add chapter'
+  route_name: entity.chapter.add_form
+  appears_on:
+    - entity.chapter.collection

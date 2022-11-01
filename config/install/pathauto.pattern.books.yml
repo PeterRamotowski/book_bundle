@@ -1,0 +1,12 @@
+status: true
+dependencies:
+  module:
+    - book_bundle
+id: books
+label: Books
+type: 'canonical_entities:book'
+pattern: '[book:title]'
+selection_criteria: {  }
+selection_logic: and
+weight: 0
+relationships: {  }

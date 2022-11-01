@@ -1,0 +1,21 @@
+entity.book.edit_form:
+  route_name: entity.book.edit_form
+  group: book
+  title: Edit
+
+entity.book.delete_form:
+  route_name: entity.book.delete_form
+  group: book
+  title: Delete
+  weight: 10
+
+entity.chapter.edit_form:
+  route_name: entity.chapter.edit_form
+  group: chapter
+  title: Edit
+
+entity.chapter.delete_form:
+  route_name: entity.chapter.delete_form
+  group: chapter
+  title: Delete
+  weight: 10

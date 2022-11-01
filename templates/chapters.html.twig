@@ -1,0 +1,12 @@
+
+{% if chapters %}
+	<ul>
+		{% for chapter in chapters %}
+			<li>
+				<a href="{{ path('entity.chapter.canonical', {'chapter': chapter.id()}) }}">
+					{{ chapter.getTitle() }}
+				</a>
+			</li>
+		{% endfor %}
+	</ul>
+{% endif %}

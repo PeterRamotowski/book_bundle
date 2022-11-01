@@ -1,0 +1,97 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for Book Bundle module
+ */
+
+use Drupal\book_bundle\content\ContentManager;
+use Drupal\Core\Render\Element;
+use Drupal\user\UserInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function book_bundle_theme()
+{
+  return [
+    'book' => [
+      'render element' => 'elements',
+    ],
+    'chapter' => [
+      'render element' => 'elements',
+    ],
+    'chapters' => [
+      'variables' => [
+        'chapters' => []
+      ],
+    ],
+  ];
+}
+
+/**
+ * Prepares variables for book templates
+ *
+ * Default template: book.html.twig
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the book information and any
+ *     fields attached to the entity
+ *   - attributes: HTML attributes for the containing element
+ */
+function template_preprocess_book(array &$variables)
+{
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Prepares variables for chapter templates
+ *
+ * Default template: chapter.html.twig
+ *
+ * @param array $variables
+ *   An associative array containing:
+ *   - elements: An associative array containing the chapter information and any
+ *     fields attached to the entity
+ *   - attributes: HTML attributes for the containing element
+ */
+function template_preprocess_chapter(array &$variables)
+{
+  $variables['view_mode'] = $variables['elements']['#view_mode'];
+
+  foreach (Element::children($variables['elements']) as $key) {
+    $variables['content'][$key] = $variables['elements'][$key];
+  }
+}
+
+/**
+ * Implements hook_user_cancel()
+ */
+function book_bundle_user_cancel($edit, UserInterface $account, $method)
+{
+  $contentManager = new ContentManager();
+
+  switch ($method) {
+    case 'user_cancel_block_unpublish':
+      $contentManager->deleteAllUserContent($account->id());
+      break;
+
+    case 'user_cancel_reassign':
+      $contentManager->anonymizeAllUserContent($account->id());
+      break;
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_predelete() for user entities
+ */
+function book_bundle_user_predelete(UserInterface $account)
+{
+  $contentManager = new ContentManager();
+  $contentManager->deleteAllUserContent($account->id());
+}
