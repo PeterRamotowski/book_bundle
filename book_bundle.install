@@ -13,8 +13,9 @@ use Drupal\book_bundle\content\ContentManager;
  */
 function book_bundle_install()
 {
-  $contentManager = new ContentManager();
+  $contentManager = \Drupal::classResolver(ContentManager::class);
   $contentManager->createContent();
 
-  ContentConfig::setupPathauto();
+  $contentConfig = \Drupal::classResolver(ContentConfig::class);
+  $contentConfig->setupPathauto();
 }

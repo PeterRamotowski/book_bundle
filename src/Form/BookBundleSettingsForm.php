@@ -7,7 +7,6 @@ use Drupal\book_bundle\Entity\BookInterface;
 use Drupal\book_bundle\Entity\ChapterInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class BookBundleSettingsForm extends FormBase
 {
@@ -17,19 +16,9 @@ class BookBundleSettingsForm extends FormBase
    */
   protected $contentManager;
 
-  public function __construct(ContentManager $contentManager)
+  public function __construct()
   {
-    $this->contentManager = $contentManager;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public static function create(ContainerInterface $container)
-  {
-    return new static(
-      $container->get('book_bundle.content_manager')
-    );
+    $this->contentManager = \Drupal::classResolver(ContentManager::class);
   }
 
   /**

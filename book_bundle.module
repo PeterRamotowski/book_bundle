@@ -74,7 +74,7 @@ function template_preprocess_chapter(array &$variables)
  */
 function book_bundle_user_cancel($edit, UserInterface $account, $method)
 {
-  $contentManager = new ContentManager();
+  $contentManager = \Drupal::classResolver(ContentManager::class);
 
   switch ($method) {
     case 'user_cancel_block_unpublish':
@@ -92,6 +92,6 @@ function book_bundle_user_cancel($edit, UserInterface $account, $method)
  */
 function book_bundle_user_predelete(UserInterface $account)
 {
-  $contentManager = new ContentManager();
+  $contentManager = \Drupal::classResolver(ContentManager::class);
   $contentManager->deleteAllUserContent($account->id());
 }

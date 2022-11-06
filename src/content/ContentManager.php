@@ -9,29 +9,40 @@ use Drupal\book_bundle\Entity\Book;
 use Drupal\book_bundle\Entity\BookInterface;
 use Drupal\book_bundle\Entity\Chapter;
 use Drupal\book_bundle\Entity\ChapterInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
 use Drupal\Core\Entity\ContentEntityBase;
+use Drupal\Core\Entity\EntityStorageInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Session\AccountProxyInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class ContentManager
+class ContentManager implements ContainerInjectionInterface
 {
 
   /**
-   * @var EntityStorageInterface
+   * @var EntityTypeManagerInterface
    */
-  protected $bookStorage;
+  protected $entityTypeManager;
 
   /**
-   * @var EntityStorageInterface
+   * @var AccountProxyInterface
    */
-  protected $chapterStorage;
+  protected $currentUser;
 
   /**
    * Constructs a new ContentManager object
    */
-  public function __construct()
+  public function __construct(EntityTypeManagerInterface $entityTypeManager, AccountProxyInterface $currentUser)
   {
-    $this->bookStorage = \Drupal::entityTypeManager()->getStorage('book');
-    $this->chapterStorage = \Drupal::entityTypeManager()->getStorage('chapter');
+    $this->entityTypeManager = $entityTypeManager;
+    $this->currentUser = $currentUser;
+  }
+
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('entity_type.manager'),
+      $container->get('current_user'),
+    );
   }
 
   /**
@@ -39,7 +50,7 @@ class ContentManager
    */
   public function getBookStorage(): EntityStorageInterface
   {
-    return $this->bookStorage;
+    return $this->entityTypeManager->getStorage('book');
   }
 
   /**
@@ -47,7 +58,7 @@ class ContentManager
    */
   public function getChapterStorage(): EntityStorageInterface
   {
-    return $this->chapterStorage;
+    return $this->entityTypeManager->getStorage('chapter');
   }
 
   /**
@@ -58,10 +69,10 @@ class ContentManager
     int $booksQuantity = BookInterface::DEFAULT_QUANTITY,
     int $chaptersQuantity = ChapterInterface::DEFAULT_QUANTITY
   ) {
-    $userId = \Drupal::currentUser()->id();
+    $userId = $this->currentUser->id();
 
     foreach (range(1, $booksQuantity) as $bookNr) {
-      $book = $this->bookStorage->create([
+      $book = $this->getBookStorage()->create([
         'type' => 'book',
         'title' => sprintf('Book %d', $bookNr),
         'uid' => $userId,
@@ -69,7 +80,7 @@ class ContentManager
       $book->save();
 
       foreach (range(1, $chaptersQuantity) as $chapterNr) {
-        $chapter = $this->chapterStorage->create([
+        $chapter = $this->getChapterStorage()->create([
           'type' => 'chapter',
           'title' => sprintf('Chapter %d', $chapterNr),
           'uid' => $userId,
@@ -87,7 +98,7 @@ class ContentManager
    */
   protected function referenceChapters()
   {
-    $chapters = $this->chapterStorage->loadMultiple();
+    $chapters = $this->getChapterStorage()->loadMultiple();
 
     if (!count($chapters)) {
       return;
@@ -98,7 +109,7 @@ class ContentManager
       $bookData = new BookData($chapter->getBook());
 
       /** @var Book $book */
-      $book = $this->bookStorage->load($bookData->getBookId());
+      $book = $this->getBookStorage()->load($bookData->getBookId());
 
       $chaptersData = new ChaptersData($book->getChapters());
 
@@ -110,8 +121,8 @@ class ContentManager
 
   public function deleteAllContent()
   {
-    $this->deleteContent($this->bookStorage);
-    $this->deleteContent($this->chapterStorage);
+    $this->deleteContent($this->getBookStorage());
+    $this->deleteContent($this->getChapterStorage());
   }
 
   /**
@@ -119,8 +130,8 @@ class ContentManager
    */
   public function deleteAllUserContent(int $userId)
   {
-    $this->deleteUserContent($this->bookStorage, $userId);
-    $this->deleteUserContent($this->chapterStorage, $userId);
+    $this->deleteUserContent($this->getBookStorage(), $userId);
+    $this->deleteUserContent($this->getChapterStorage(), $userId);
   }
 
   /**
@@ -152,8 +163,8 @@ class ContentManager
    */
   public function anonymizeAllUserContent(int $userId)
   {
-    $this->anonymizeUserContent($this->bookStorage, $userId);
-    $this->anonymizeUserContent($this->chapterStorage, $userId);
+    $this->anonymizeUserContent($this->getBookStorage(), $userId);
+    $this->anonymizeUserContent($this->getChapterStorage(), $userId);
   }
 
   /**
