@@ -85,7 +85,7 @@ class ContentManager
   /**
    * Reverse reference chapters in books
    */
-  public function referenceChapters()
+  protected function referenceChapters()
   {
     $chapters = $this->chapterStorage->loadMultiple();
 
@@ -127,7 +127,7 @@ class ContentManager
    * @param EntityStorageInterface $storage
    * @param int $userId 
    */
-  public function deleteUserContent(EntityStorageInterface $storage, int $userId)
+  protected function deleteUserContent(EntityStorageInterface $storage, int $userId)
   {
     $contentLoader = new ContentLoader($storage);
     $entityIds = $contentLoader->getUserContent($userId);
@@ -139,7 +139,7 @@ class ContentManager
    * @param EntityStorageInterface $storage
    * @param null|array $entityIds 
    */
-  public function deleteContent(EntityStorageInterface $storage, ?array $entityIds = NULL)
+  protected function deleteContent(EntityStorageInterface $storage, ?array $entityIds = NULL)
   {
     /** @var ContentEntityBase $entity */
     foreach ($storage->loadMultiple($entityIds) as $entity) {
@@ -160,7 +160,7 @@ class ContentManager
    * @param EntityStorageInterface $storage
    * @param int $userId 
    */
-  public function anonymizeUserContent(EntityStorageInterface $storage, int $userId)
+  protected function anonymizeUserContent(EntityStorageInterface $storage, int $userId)
   {
     $contentLoader = new ContentLoader($storage);
     $entityIds = $contentLoader->getUserContent($userId);
@@ -172,7 +172,7 @@ class ContentManager
    * @param EntityStorageInterface $storage
    * @param array $entityIds
    */
-  public function anonymizeContent(EntityStorageInterface $storage, array $entityIds)
+  protected function anonymizeContent(EntityStorageInterface $storage, array $entityIds)
   {
     /** @var ContentEntityBase $entity */
     foreach ($storage->loadMultiple($entityIds) as $entity) {
